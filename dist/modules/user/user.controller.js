@@ -31,7 +31,34 @@ const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
         data: user,
     });
 }));
+const addToWishList = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, bookId } = req.body;
+    const user = yield user_service_1.userService.addToWishList(userId, bookId);
+    res.status(200).json({
+        status: "success",
+        data: user,
+    });
+}));
+const addToReadingList = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, bookId } = req.body;
+    const user = yield user_service_1.userService.addToReadingList(userId, bookId);
+    res.status(200).json({
+        status: "success",
+        data: user,
+    });
+}));
+const makeBookFinished = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, bookId } = req.body;
+    const user = yield user_service_1.userService.makeBookFinished(userId, bookId);
+    res.status(200).json({
+        status: "success",
+        data: user,
+    });
+}));
 exports.userController = {
     createUser,
     loginUser,
+    addToWishList,
+    addToReadingList,
+    makeBookFinished,
 };

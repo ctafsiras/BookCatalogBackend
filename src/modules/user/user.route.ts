@@ -4,5 +4,8 @@ const router = express.Router();
 
 router.post("/signup", userController.createUser);
 router.post("/login", userController.loginUser);
+router.post("/addToWishList", userController.addToWishList);
+router.post("/addToReadingList", userController.addToReadingList);
+router.post("/makeBookFinished", userController.makeBookFinished);
 
-export const userRoute = router;
+export const userRoutes = router;

@@ -8,6 +8,8 @@ interface IReview {
 export interface IBook {
   title: string;
   author: string;
-  publicationDate: Date;
+  genre: string;
+  publicationYear: number;
   reviews?: IReview[];
 }
+

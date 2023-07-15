@@ -23,7 +23,43 @@ const loginUser: RequestHandler = catchAsync(
   }
 );
 
+const addToWishList: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { userId, bookId } = req.body;
+    const user = await userService.addToWishList(userId, bookId);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  }
+);
+
+const addToReadingList: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { userId, bookId } = req.body;
+    const user = await userService.addToReadingList(userId, bookId);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  }
+);
+
+const makeBookFinished: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { userId, bookId } = req.body;
+    const user = await userService.makeBookFinished(userId, bookId);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  }
+);
+
 export const userController = {
   createUser,
   loginUser,
+  addToWishList,
+  addToReadingList,
+  makeBookFinished,
 };

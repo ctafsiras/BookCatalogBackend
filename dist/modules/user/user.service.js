@@ -12,7 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const user_model_1 = require("./user.model");
 const createUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const isExist = yield user_model_1.User.findOne({ username: user.username });
+    const isExist = yield user_model_1.User.findOne({ username: user.username }).populate([
+        {
+            path: "wishList.bookId",
+        },
+        {
+            path: "readingList.bookId",
+        },
+    ]);
     if (isExist) {
         throw new Error("Username already exist");
     }
@@ -20,7 +27,14 @@ const createUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return newUser;
 });
 const loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const isExist = yield user_model_1.User.findOne({ username: user.username });
+    const isExist = yield user_model_1.User.findOne({ username: user.username }).populate([
+        {
+            path: "wishList.bookId",
+        },
+        {
+            path: "readingList.bookId",
+        },
+    ]);
     if (!isExist) {
         throw new Error("Username doesnot exist");
     }
@@ -29,7 +43,36 @@ const loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return isExist;
 });
+const addToWishList = (userId, bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findById(userId);
+    if (!user) {
+        throw new Error("User not found");
+    }
+    return yield user_model_1.User.findByIdAndUpdate(userId, {
+        wishList: [...user.wishList, bookId],
+    }, { new: true });
+});
+const addToReadingList = (userId, bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findById(userId);
+    if (!user) {
+        throw new Error("User not found");
+    }
+    return yield user_model_1.User.findByIdAndUpdate(userId, {
+        readinList: [...user.readingList, { bookId, finished: false }],
+    }, { new: true });
+});
+const makeBookFinished = (userId, bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findById(userId);
+    if (!user) {
+        throw new Error("User not found");
+    }
+    const readingList = user.readingList.map((book) => book.bookId.toString() === bookId && book.finished === true);
+    return yield user_model_1.User.findByIdAndUpdate(userId, { readingList }, { new: true });
+});
 exports.userService = {
     createUser,
     loginUser,
+    addToWishList,
+    addToReadingList,
+    makeBookFinished,
 };

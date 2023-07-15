@@ -11,16 +11,16 @@ const bookSchema = new Schema(
       type: String,
       required: true,
     },
-    publicationDate: {
-      type: Date,
+    genre: {
+      type: String,
+      required: true,
+    },
+    publicationYear: {
+      type: Number,
       required: true,
     },
     reviews: [
       {
-        userId: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-        },
         review: {
           type: String,
           required: true,
