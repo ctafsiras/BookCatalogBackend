@@ -9,6 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const user_route_1 = require("./modules/user/user.route");
 const book_route_1 = require("./modules/book/book.route");
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)());
 app.use("/user", user_route_1.userRoutes);
 app.use("/book", book_route_1.bookRoutes);

@@ -15,12 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const port = process.env.PORT || 5000;
-app_1.default.listen(port, () => {
-    function main() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield mongoose_1.default.connect("mongodb+srv://db:db@cluster0.dbyzuki.mongodb.net/BookCatalog?retryWrites=true&w=majority");
+const serverConnect = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect("mongodb+srv://db:db@cluster0.dbyzuki.mongodb.net/BookCatalog?retryWrites=true&w=majority");
+        console.log("Database connected");
+        app_1.default.listen(port, () => {
+            console.log(`app listening on port ${port}`);
         });
     }
-    main().catch((err) => console.log(err));
-    console.log(`Example app listening on port ${port}`);
+    catch (error) {
+        console.log(error);
+    }
 });
+serverConnect();
