@@ -21,10 +21,8 @@ const bookSchema = new Schema(
     },
     reviews: [
       {
-        review: {
-          type: String,
-          required: true,
-        },
+        type: String,
+        required: true,
       },
     ],
   },

@@ -46,6 +46,14 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
     data: book,
   });
 });
+const addReview = catchAsync(async (req: Request, res: Response) => {
+  const { id, review } = req.body;
+  const book = await bookService.updateBook(id, review);
+  res.status(200).json({
+    status: "success",
+    data: book,
+  });
+});
 
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -62,5 +70,6 @@ export const bookController = {
   getRecentBooks,
   getSingleBook,
   updateBook,
+  addReview,
   deleteBook,
 };
