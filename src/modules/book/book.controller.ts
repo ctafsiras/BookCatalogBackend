@@ -49,7 +49,7 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
 const addReview = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const { review } = req.body;
-  const book = await bookService.updateBook(id, review);
+  const book = await bookService.addReview(id, review);
   res.status(200).json({
     status: "success",
     data: book,

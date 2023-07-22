@@ -37,16 +37,16 @@ const loginUser = async (user: Partial<IUser>) => {
 
 const addToWishList = async (userId: string, bookId: string) => {
   const user = await User.findById(userId);
+
   if (!user) {
     throw new Error("User not found");
   }
-  return await User.findByIdAndUpdate(
-    userId,
-    {
-      wishList: [...user.wishList!, bookId],
-    },
-    { new: true }
-  );
+  if (user.wishList?.includes(bookId)) {
+    throw new Error("Book already in wishlist");
+  }
+  user.wishList = [...user.wishList!, bookId];
+  console.log(user);
+  return await User.findByIdAndUpdate(userId, user, { new: true });
 };
 
 const addToReadingList = async (userId: string, bookId: string) => {
@@ -54,13 +54,17 @@ const addToReadingList = async (userId: string, bookId: string) => {
   if (!user) {
     throw new Error("User not found");
   }
-  return await User.findByIdAndUpdate(
-    userId,
-    {
-      readinList: [...user.readingList!, { bookId, finished: false }],
-    },
-    { new: true }
-  );
+  if (
+    user.readingList?.some(
+      (book) =>
+        (book.bookId === bookId && book.finished === false) ||
+        book.finished === true
+    )
+  ) {
+    throw new Error("Book already in wishlist");
+  }
+  user.readingList = [...user.readingList!, { bookId, finished: false }];
+  return await User.findByIdAndUpdate(userId, user, { new: true });
 };
 
 const makeBookFinished = async (userId: string, bookId: string) => {
@@ -68,11 +72,10 @@ const makeBookFinished = async (userId: string, bookId: string) => {
   if (!user) {
     throw new Error("User not found");
   }
-
-  const readingList = user.readingList!.map(
-    (book) => book.bookId.toString() === bookId && book.finished === true
+  user.readingList = user.readingList?.map((book) =>
+    book.bookId === bookId ? { ...book, finished: true } : book
   );
-  return await User.findByIdAndUpdate(userId, { readingList }, { new: true });
+  return await User.findByIdAndUpdate(userId, user, { new: true });
 };
 export const userService = {
   createUser,

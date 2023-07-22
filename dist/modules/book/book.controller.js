@@ -58,7 +58,7 @@ const updateBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 const addReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { review } = req.body;
-    const book = yield book_service_1.bookService.updateBook(id, review);
+    const book = yield book_service_1.bookService.addReview(id, review);
     res.status(200).json({
         status: "success",
         data: book,

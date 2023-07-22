@@ -44,30 +44,39 @@ const loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return isExist;
 });
 const addToWishList = (userId, bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const user = yield user_model_1.User.findById(userId);
     if (!user) {
         throw new Error("User not found");
     }
-    return yield user_model_1.User.findByIdAndUpdate(userId, {
-        wishList: [...user.wishList, bookId],
-    }, { new: true });
+    if ((_a = user.wishList) === null || _a === void 0 ? void 0 : _a.includes(bookId)) {
+        throw new Error("Book already in wishlist");
+    }
+    user.wishList = [...user.wishList, bookId];
+    console.log(user);
+    return yield user_model_1.User.findByIdAndUpdate(userId, user, { new: true });
 });
 const addToReadingList = (userId, bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
     const user = yield user_model_1.User.findById(userId);
     if (!user) {
         throw new Error("User not found");
     }
-    return yield user_model_1.User.findByIdAndUpdate(userId, {
-        readinList: [...user.readingList, { bookId, finished: false }],
-    }, { new: true });
+    if ((_b = user.readingList) === null || _b === void 0 ? void 0 : _b.some((book) => (book.bookId === bookId && book.finished === false) ||
+        book.finished === true)) {
+        throw new Error("Book already in wishlist");
+    }
+    user.readingList = [...user.readingList, { bookId, finished: false }];
+    return yield user_model_1.User.findByIdAndUpdate(userId, user, { new: true });
 });
 const makeBookFinished = (userId, bookId) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c;
     const user = yield user_model_1.User.findById(userId);
     if (!user) {
         throw new Error("User not found");
     }
-    const readingList = user.readingList.map((book) => book.bookId.toString() === bookId && book.finished === true);
-    return yield user_model_1.User.findByIdAndUpdate(userId, { readingList }, { new: true });
+    user.readingList = (_c = user.readingList) === null || _c === void 0 ? void 0 : _c.map((book) => book.bookId === bookId ? Object.assign(Object.assign({}, book), { finished: true }) : book);
+    return yield user_model_1.User.findByIdAndUpdate(userId, user, { new: true });
 });
 exports.userService = {
     createUser,

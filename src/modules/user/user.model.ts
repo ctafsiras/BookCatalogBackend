@@ -18,17 +18,14 @@ const userSchema = new Schema(
     },
     wishList: [
       {
-        bookId: {
-          type: Schema.Types.ObjectId,
-          ref: "Book",
-        },
+        type: String,
+        ref: "Book",
       },
     ],
     readingList: [
       {
         bookId: {
-          type: Schema.Types.ObjectId,
-          ref: "Book",
+          type: String,
         },
         finished: {
           type: Boolean,

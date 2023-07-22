@@ -18,17 +18,14 @@ const userSchema = new mongoose_1.Schema({
     },
     wishList: [
         {
-            bookId: {
-                type: mongoose_1.Schema.Types.ObjectId,
-                ref: "Book",
-            },
+            type: String,
+            ref: "Book",
         },
     ],
     readingList: [
         {
             bookId: {
-                type: mongoose_1.Schema.Types.ObjectId,
-                ref: "Book",
+                type: String,
             },
             finished: {
                 type: Boolean,
