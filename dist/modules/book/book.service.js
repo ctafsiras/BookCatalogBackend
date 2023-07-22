@@ -29,12 +29,11 @@ const updateBook = (id, updatedBook) => __awaiter(void 0, void 0, void 0, functi
     return yield book_model_1.Book.findByIdAndUpdate(id, updatedBook, { new: true });
 });
 const addReview = (id, review) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     const book = yield book_model_1.Book.findById(id);
     if (!book) {
         throw new Error("Book not found");
     }
-    (_a = book.reviews) === null || _a === void 0 ? void 0 : _a.push(review);
+    book.reviews = [...book.reviews, review];
     return yield book_model_1.Book.findByIdAndUpdate(id, book, { new: true });
 });
 const deleteBook = (id) => __awaiter(void 0, void 0, void 0, function* () {

@@ -25,7 +25,7 @@ const addReview = async (id: string, review: string) => {
   if (!book) {
     throw new Error("Book not found");
   }
-  book.reviews?.push(review);
+  book.reviews = [...book.reviews!, review];
   return await Book.findByIdAndUpdate(id, book, { new: true });
 };
 
