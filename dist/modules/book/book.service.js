@@ -18,6 +18,10 @@ const getAllBooks = (filterOptions) => __awaiter(void 0, void 0, void 0, functio
     const books = yield book_model_1.Book.find({});
     return books;
 });
+const getRecentBooks = () => __awaiter(void 0, void 0, void 0, function* () {
+    const books = yield book_model_1.Book.find().sort({ createdAt: -1 }).limit(10);
+    return books;
+});
 const getSingleBook = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return yield book_model_1.Book.findById(id);
 });
@@ -30,6 +34,7 @@ const deleteBook = (id) => __awaiter(void 0, void 0, void 0, function* () {
 exports.bookService = {
     createBook,
     getAllBooks,
+    getRecentBooks,
     getSingleBook,
     updateBook,
     deleteBook,

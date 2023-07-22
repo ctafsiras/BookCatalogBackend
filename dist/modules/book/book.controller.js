@@ -31,6 +31,13 @@ const getAllBooks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: books,
     });
 }));
+const getRecentBooks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const books = yield book_service_1.bookService.getRecentBooks();
+    res.status(200).json({
+        status: "success",
+        data: books,
+    });
+}));
 const getSingleBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const book = yield book_service_1.bookService.getSingleBook(id);
@@ -59,6 +66,7 @@ const deleteBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 exports.bookController = {
     createBook,
     getAllBooks,
+    getRecentBooks,
     getSingleBook,
     updateBook,
     deleteBook,
