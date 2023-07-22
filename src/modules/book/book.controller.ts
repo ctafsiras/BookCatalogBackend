@@ -20,6 +20,13 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
     data: books,
   });
 });
+const getRecentBooks = catchAsync(async (req: Request, res: Response) => {
+  const books = await bookService.getRecentBooks();
+  res.status(200).json({
+    status: "success",
+    data: books,
+  });
+});
 
 const getSingleBook = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -52,6 +59,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
 export const bookController = {
   createBook,
   getAllBooks,
+  getRecentBooks,
   getSingleBook,
   updateBook,
   deleteBook,

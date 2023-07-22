@@ -5,7 +5,11 @@ const createBook = async (book: IBook) => {
   return await Book.create(book);
 };
 const getAllBooks = async (filterOptions: Partial<IBook>) => {
-  const books = await Book.find({  });
+  const books = await Book.find({});
+  return books;
+};
+const getRecentBooks = async () => {
+  const books = await Book.find().sort({ createdAt: -1 }).limit(10);
   return books;
 };
 
@@ -24,6 +28,7 @@ const deleteBook = async (id: string) => {
 export const bookService = {
   createBook,
   getAllBooks,
+  getRecentBooks,
   getSingleBook,
   updateBook,
   deleteBook,
